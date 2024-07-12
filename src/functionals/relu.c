@@ -1,4 +1,4 @@
-#include <layers/relu.h>
+#include <functionals/relu.h>
 
 #include <stdlib.h>
 

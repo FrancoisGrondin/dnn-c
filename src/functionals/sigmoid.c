@@ -1,4 +1,4 @@
-#include <layers/sigmoid.h>
+#include <functionals/sigmoid.h>
 
 #include <math.h>
 #include <stdlib.h>

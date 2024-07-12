@@ -1,4 +1,4 @@
-#include <layers/softmax.h>
+#include <functionals/softmax.h>
 
 #include <math.h>
 #include <stdlib.h>
