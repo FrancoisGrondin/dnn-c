@@ -9,6 +9,7 @@ int main(int argc, char * argv[]) {
     int error = 0;
 
     error += test("Testing relu................. ", test_utils_functional_relu());
+    error += test("Testing sigmoid.............. ", test_utils_functional_sigmoid());
 
     return error;
 
