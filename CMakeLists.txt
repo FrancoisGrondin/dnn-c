@@ -36,7 +36,11 @@ target_link_libraries(dnn-c
     m
 )
 
-add_executable(demo_test demo/test.c)
-target_link_libraries(demo_test dnn-c)
+add_executable(tests
+    test/tests.c
+    test/units/test_utils_functional.c
+)
+
+target_link_libraries(tests dnn-c)
 
 install(TARGETS dnn-c DESTINATION lib)
