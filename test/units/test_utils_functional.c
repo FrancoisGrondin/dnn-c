@@ -11,43 +11,48 @@ int test_utils_functional_relu(void) {
         const unsigned num_dims3 = 2;
         const unsigned num_dims4 = 4;
 
-        tensor * in;
-        tensor * out;
-
-        in = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
-        out = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
+        tensor * in = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
+        tensor * target = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
+        tensor * pred = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
         
-        const float in_array[2][3][2][4] =
-            { { { { +1.0f, +2.0f, -3.0f, -2.0f }, { +2.0f, +1.0f, +3.0f, +2.0f } }, { { -3.0f, -4.0f, +0.0f, +1.0f }, { -2.0f, -3.0f, -3.0f, +5.0f } }, { { -1.0f, +3.0f, +2.0f, -1.0f }, { +1.0f, +1.0f, -3.0f, -3.0f } } },
-              { { { -2.0f, +1.0f, +0.0f, -2.0f }, { +4.0f, +1.0f, -2.0f, +0.0f } }, { { +0.0f, +3.0f, -1.0f, -1.0f }, { +2.0f, -2.0f, -1.0f, +0.0f } }, { { +0.0f, +2.0f, +1.0f, -4.0f }, { +1.0f, +0.0f, -3.0f, +4.0f } } } };
+        const float in_array[] = { +1.0f, +2.0f, -3.0f, -2.0f, 
+                                   +2.0f, +1.0f, +3.0f, +2.0f, 
+                                   -3.0f, -4.0f, +0.0f, +1.0f, 
+                                   -2.0f, -3.0f, -3.0f, +5.0f, 
+                                   -1.0f, +3.0f, +2.0f, -1.0f,
+                                   +1.0f, +1.0f, -3.0f, -3.0f,
+                                   -2.0f, +1.0f, +0.0f, -2.0f,
+                                   +4.0f, +1.0f, -2.0f, +0.0f,
+                                   +0.0f, +3.0f, -1.0f, -1.0f,
+                                   +2.0f, -2.0f, -1.0f, +0.0f,
+                                   +0.0f, +2.0f, +1.0f, -4.0f, 
+                                   +1.0f, +0.0f, -3.0f, +4.0f };
 
-        const float out_array[2][3][2][4] =
-            { { { { +1.0f, +2.0f, +0.0f, +0.0f }, { +2.0f, +1.0f, +3.0f, +2.0f } }, { { +0.0f, +0.0f, +0.0f, +1.0f }, { +0.0f, +0.0f, +0.0f, +5.0f } }, { { +0.0f, +3.0f, +2.0f, +0.0f }, { +1.0f, +1.0f, +0.0f, +0.0f } } },
-              { { { +0.0f, +1.0f, +0.0f, +0.0f }, { +4.0f, +1.0f, +0.0f, +0.0f } }, { { +0.0f, +3.0f, +0.0f, +0.0f }, { +2.0f, +0.0f, +0.0f, +0.0f } }, { { +0.0f, +2.0f, +1.0f, +0.0f }, { +1.0f, +0.0f, +0.0f, +4.0f } } } };
+        const float target_array[] = { +1.0f, +2.0f, +0.0f, +0.0f, 
+                                       +2.0f, +1.0f, +3.0f, +2.0f,
+                                       +0.0f, +0.0f, +0.0f, +1.0f,
+                                       +0.0f, +0.0f, +0.0f, +5.0f,
+                                       +0.0f, +3.0f, +2.0f, +0.0f,
+                                       +1.0f, +1.0f, +0.0f, +0.0f,
+                                       +0.0f, +1.0f, +0.0f, +0.0f,
+                                       +4.0f, +1.0f, +0.0f, +0.0f,
+                                       +0.0f, +3.0f, +0.0f, +0.0f,
+                                       +2.0f, +0.0f, +0.0f, +0.0f,
+                                       +0.0f, +2.0f, +1.0f, +0.0f,
+                                       +1.0f, +0.0f, +0.0f, +4.0f };
 
-        for (unsigned int index_dim1 = 0; index_dim1 < num_dims1; index_dim1++) {
-            for (unsigned int index_dim2 = 0; index_dim2 < num_dims2; index_dim2++) {
-                for (unsigned int index_dim3 = 0; index_dim3 < num_dims3; index_dim3++) {
-                    tensor_load_1d(in, index_dim1, index_dim2, index_dim3, in_array[index_dim1][index_dim2][index_dim3]);
-                }
-            }
+        tensor_load(in, in_array);
+        tensor_load(target, target_array);
+        
+        relu(in, pred);
+
+        if (tensors_compare(pred, target, eps) != 0) {
+            return -1;
         }
 
-        relu(in, out);
-
-        for (unsigned int index_dim1 = 0; index_dim1 < num_dims1; index_dim1++) {
-            for (unsigned int index_dim2 = 0; index_dim2 < num_dims2; index_dim2++) {
-                for (unsigned int index_dim3 = 0; index_dim3 < num_dims3; index_dim3++) {
-                    float pred[4] = { 0 };
-                    tensor_save_1d(out, index_dim1, index_dim2, index_dim3, pred);
-                    for (unsigned int index_dim4 = 0; index_dim4 < num_dims4; index_dim4++) {
-                        if (fabsf(pred[index_dim4] - out_array[index_dim1][index_dim2][index_dim3][index_dim4]) > eps) {
-                            return -1;
-                        }
-                    }
-                }
-            }
-        }
+        tensor_destroy(in);
+        tensor_destroy(target);
+        tensor_destroy(pred);
 
     }
 
@@ -66,41 +71,36 @@ int test_utils_functional_sigmoid(void) {
         const unsigned num_dims3 = 2;
         const unsigned num_dims4 = 4;
 
-        tensor * in;
-        tensor * out;
+        tensor * in = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
+        tensor * target = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
+        tensor * pred = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
 
-        in = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
-        out = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
+        const float in_array[] = { +1.0f, -2.0f, +0.0f, +3.0f, 
+                                   -100.0f, +100.0f, +10.0f, -10.0f };
 
-        const float in_array[1][1][2][4] = { { { { +1.0f, -2.0f, +0.0f, +3.0f }, { -100.0f, +100.0f, +10.0f, -10.0f } } } };
+        const float target_array[] = { +0.731059f, +0.119203f, +0.500000f, +0.952574f, 
+                                       +0.000000f, +1.000000f, +0.999955f, +0.000045f };
 
-        const float out_array[1][1][2][4] = { { { { +0.731059f, +0.119203f, +0.500000f, +0.952574f }, { +0.000000f, +1.000000f, +0.999955f, +0.000045f } } } };
+        tensor_load(in, in_array);
+        tensor_load(target, target_array);
+        
+        sigmoid(in, pred);
 
-        for (unsigned int index_dim1 = 0; index_dim1 < num_dims1; index_dim1++) {
-            for (unsigned int index_dim2 = 0; index_dim2 < num_dims2; index_dim2++) {
-                for (unsigned int index_dim3 = 0; index_dim3 < num_dims3; index_dim3++) {
-                    tensor_load_1d(in, index_dim1, index_dim2, index_dim3, in_array[index_dim1][index_dim2][index_dim3]);
-                }
-            }
+        if (tensors_compare(pred, target, eps) != 0) {
+            return -1;
         }
 
-        sigmoid(in, out);
-
-        for (unsigned int index_dim1 = 0; index_dim1 < num_dims1; index_dim1++) {
-            for (unsigned int index_dim2 = 0; index_dim2 < num_dims2; index_dim2++) {
-                for (unsigned int index_dim3 = 0; index_dim3 < num_dims3; index_dim3++) {
-                    float pred[4] = { 0 };
-                    tensor_save_1d(out, index_dim1, index_dim2, index_dim3, pred);
-                    for (unsigned int index_dim4 = 0; index_dim4 < num_dims4; index_dim4++) {
-                        if (fabsf(pred[index_dim4] - out_array[index_dim1][index_dim2][index_dim3][index_dim4]) > eps) {
-                            return -1;
-                        }
-                    }
-                }
-            }
-        }
+        tensor_destroy(in);
+        tensor_destroy(target);
+        tensor_destroy(pred);
 
     }
+
+    return 0;
+
+}
+
+int test_utils_functional_softmax(void) {
 
     return 0;
 

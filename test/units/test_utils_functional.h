@@ -9,3 +9,5 @@
 int test_utils_functional_relu(void);
 
 int test_utils_functional_sigmoid(void);
+
+int test_utils_functional_softmax(void);
