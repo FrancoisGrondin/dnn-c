@@ -1,9 +1,9 @@
 #ifndef __LAYERS_GRU
 #define __LAYERS_GRU
 
-#include "../tensors/tensor.h"
+#include "../utils/tensor.h"
 
-typedef struct ugru {
+typedef struct ugru_params {
 
     unsigned int num_dims_in;
     unsigned int num_dims_out;
@@ -21,6 +21,13 @@ typedef struct ugru {
     float * W_hn;
     float * b_hn;
 
+} ugru_params;
+
+typedef struct ugru {
+
+    unsigned int num_dims_in;
+    unsigned int num_dims_out;
+
     float * r;
     float * z;
     float * n;
@@ -30,6 +37,8 @@ typedef struct ugru {
 ugru * ugru_construct(const unsigned int num_dims_in, const unsigned int num_dims_out);
 
 void ugru_destroy(ugru * obj);
+
+int ugru_load(ugru * obj, const ugru_params * params);
 
 int ugru_forward(const ugru * obj, const tensor * in, const tensor * hidden, tensor * out);
 

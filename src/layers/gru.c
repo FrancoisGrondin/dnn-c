@@ -53,6 +53,12 @@ void ugru_destroy(ugru * obj) {
 
 }
 
+int ugru_load(ugru * obj, const ugru_params * params) {
+
+	return 0;
+
+}
+
 int ugru_forward(const ugru * obj, const tensor * in, const tensor * hidden, tensor * out) {
 
 	return 0;

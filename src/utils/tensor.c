@@ -1,4 +1,4 @@
-#include <tensors/tensor.h>
+#include <utils/tensor.h>
 
 #include <stdlib.h>
 

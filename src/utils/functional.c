@@ -1,23 +1,32 @@
-#include <functionals/softmax.h>
+#include <utils/functional.h>
 
 #include <math.h>
-#include <stdlib.h>
 
-softmax * softmax_construct(void) {
+int relu(const tensor * in, tensor * out) {
 
-    softmax * obj = (softmax *) malloc(sizeof(softmax));
+    const unsigned int num_dims = in->num_dims1 * in->num_dims2 * in->num_dims3 * in->num_dims4;
 
-    return obj;
+    for (unsigned int index_dim = 0; index_dim < num_dims; index_dim++) {
+        out->data[index_dim] = (in->data[index_dim] > 0.0f) ? in->data[index_dim] : 0.0f;
+    }
 
-}
-
-void softmax_destroy(softmax * obj) {
-
-    free((void *) obj);
+    return 0;
 
 }
 
-int softmax_forward(const softmax * obj, const tensor * in, tensor * out) {
+int sigmoid(const tensor * in, tensor * out) {
+
+    const unsigned int num_dims = in->num_dims1 * in->num_dims2 * in->num_dims3 * in->num_dims4;
+
+    for (unsigned int index_dim = 0; index_dim < num_dims; index_dim++) {
+        out->data[index_dim] = 1.0f / (1.0f + expf(-1.0f * in->data[index_dim]));
+    }        
+
+    return 0;
+
+}
+
+int softmax(const tensor * in, tensor * out) {
 
     const unsigned int num_dims_batch = in->num_dims1 * in->num_dims2 * in->num_dims3;
     const unsigned int num_dims_tensor = in->num_dims4;

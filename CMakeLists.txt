@@ -21,14 +21,10 @@ add_subdirectory(include)
 
 set(SRC
 
-    src/functionals/relu.c
-    src/functionals/sigmoid.c
-    src/functionals/softmax.c
-
-    src/layers/gru.c
     src/layers/linear.c
 
-    src/tensors/tensor.c
+    src/utils/functional.c
+    src/utils/tensor.c
 
 )
 

@@ -1,9 +1,9 @@
 #ifndef __LAYERS_LINEAR
 #define __LAYERS_LINEAR
 
-#include "../tensors/tensor.h"
+#include "../utils/tensor.h"
 
-typedef struct linear {
+typedef struct linear_params {
 
     unsigned int num_dims_in;
     unsigned int num_dims_out;
@@ -11,9 +11,15 @@ typedef struct linear {
     float * W;
     float * b;
 
+} linear_params;
+
+typedef struct linear {
+
+    const linear_params * params;
+
 } linear;
 
-linear * linear_construct(const unsigned int num_dims_in, const unsigned int num_dims_out);
+linear * linear_construct(const linear_params * params);
 
 void linear_destroy(linear * obj);
 
