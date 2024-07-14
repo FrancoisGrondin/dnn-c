@@ -10,6 +10,7 @@ int main(int argc, char * argv[]) {
 
     error += test("Testing relu................. ", test_utils_functional_relu());
     error += test("Testing sigmoid.............. ", test_utils_functional_sigmoid());
+    error += test("Testing softmax.............. ", test_utils_functional_softmax());
 
     return error;
 

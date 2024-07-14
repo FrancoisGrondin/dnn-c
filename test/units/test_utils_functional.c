@@ -102,6 +102,40 @@ int test_utils_functional_sigmoid(void) {
 
 int test_utils_functional_softmax(void) {
 
+    const float eps = 1e-5f;
+
+    {
+
+        const unsigned num_dims1 = 1;
+        const unsigned num_dims2 = 1;
+        const unsigned num_dims3 = 2;
+        const unsigned num_dims4 = 4;
+
+        tensor * in = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
+        tensor * target = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
+        tensor * pred = tensor_construct(num_dims1, num_dims2, num_dims3, num_dims4);
+
+        const float in_array[] = { +1.0f, -2.0f, +0.0f, +3.0f, 
+                                   -100.0f, +100.0f, +10.0f, -10.0f };
+
+        const float target_array[] = { +0.113550f, +0.005653f, +0.041773f, +0.839025f, 
+                                       +0.000000f, +1.000000f, +0.000000f, +0.000000f };
+
+        tensor_load(in, in_array);
+        tensor_load(target, target_array);
+        
+        softmax(in, pred);
+
+        if (tensors_compare(pred, target, eps) != 0) {
+            return -1;
+        }
+
+        tensor_destroy(in);
+        tensor_destroy(target);
+        tensor_destroy(pred);
+
+    }
+
     return 0;
 
 }
