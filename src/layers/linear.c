@@ -18,12 +18,6 @@ void linear_destroy(linear * obj) {
 
 }
 
-int linear_load(linear * obj, const linear_params * params) {
-
-	return 0;
-
-}
-
 int linear_forward(const linear * obj, const tensor * in, tensor * out) {
 
     const unsigned int num_dims_batch = in->num_dims1 * in->num_dims2 * in->num_dims3;

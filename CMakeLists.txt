@@ -38,6 +38,7 @@ target_link_libraries(dnn-c
 
 add_executable(tests
     test/tests.c
+    test/units/test_layers_linear.c
     test/units/test_utils_functional.c
 )
 
