@@ -25,20 +25,17 @@ typedef struct ugru_params {
 
 typedef struct ugru {
 
-    unsigned int num_dims_in;
-    unsigned int num_dims_out;
+    const ugru_params * params;
 
+    float * n;
     float * r;
     float * z;
-    float * n;
 
 } ugru;
 
-ugru * ugru_construct(const unsigned int num_dims_in, const unsigned int num_dims_out);
+ugru * ugru_construct(const ugru_params * params);
 
 void ugru_destroy(ugru * obj);
-
-int ugru_load(ugru * obj, const ugru_params * params);
 
 int ugru_forward(const ugru * obj, const tensor * in, const tensor * hidden, tensor * out);
 
