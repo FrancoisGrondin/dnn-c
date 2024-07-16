@@ -27,9 +27,7 @@ typedef struct ugru {
 
     const ugru_params * params;
 
-    float * n;
-    float * r;
-    float * z;
+    float * h;
 
 } ugru;
 

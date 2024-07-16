@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "units/test_utils_functional.h"
+#include "units/test_layers_gru.h"
 #include "units/test_layers_linear.h"
 
 static int test(const char * description, const int error);
@@ -12,6 +13,7 @@ int main(int argc, char * argv[]) {
     error += test("Testing relu................. ", test_utils_functional_relu());
     error += test("Testing sigmoid.............. ", test_utils_functional_sigmoid());
     error += test("Testing softmax.............. ", test_utils_functional_softmax());
+    error += test("Testing gru.................. ", test_layers_gru());
     error += test("Testing linear............... ", test_layers_linear());
 
     return error;
