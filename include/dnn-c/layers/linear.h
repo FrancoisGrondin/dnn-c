@@ -5,11 +5,11 @@
 
 typedef struct linear_params {
 
-    unsigned int num_dims_in;
-    unsigned int num_dims_out;
+    unsigned int num_dims_in;  // I
+    unsigned int num_dims_out; // O
 
-    float * W;
-    float * b;
+    float * W; // O x I
+    float * b; // O x 1
 
 } linear_params;
 
