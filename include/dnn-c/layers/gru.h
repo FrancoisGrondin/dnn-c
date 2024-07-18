@@ -8,18 +8,10 @@ typedef struct ugru_params {
     unsigned int num_dims_in;  // I
     unsigned int num_dims_out; // O
 
-    float * W_ir; // O x I
-    float * b_ir; // O x 1
-    float * W_hr; // O x O
-    float * b_hr; // O x 1
-    float * W_iz; // O x I
-    float * b_iz; // O x 1
-    float * W_hz; // O x O
-    float * b_hz; // O x 1
-    float * W_in; // O x I
-    float * b_in; // O x 1
-    float * W_hn; // O x O
-    float * b_hn; // O x 1
+    float * W_ih; // 3O x I
+    float * W_hh; // 3O x O
+    float * b_ih; // 3O x 1
+    float * b_hh; // 3O x 1
 
 } ugru_params;
 
