@@ -27,62 +27,19 @@ def export(layer):
 
 def main():
 
-    layer = torch.nn.GRU(1, 2, batch_first=True)
-    with torch.no_grad():
-        
-        layer.weight_ih_l0[:,:] = torch.from_numpy(np.zeros((6,1), dtype=np.float32))
-        layer.weight_hh_l0[:,:] = torch.from_numpy(np.zeros((6,2), dtype=np.float32))
-        layer.bias_ih_l0[:] = torch.from_numpy(np.zeros((6,), dtype=np.float32))
-        layer.bias_hh_l0[:] = torch.from_numpy(np.zeros((6,), dtype=np.float32))
+    torch.manual_seed(1)
 
-        layer.weight_ih_l0[0,0] = +5.0
-        layer.weight_ih_l0[1,0] = -3.0
-        layer.weight_ih_l0[2,0] = +2.0
-        layer.weight_ih_l0[3,0] = +1.0
-        layer.weight_ih_l0[4,0] = +1.0
-        layer.weight_ih_l0[5,0] = +1.0
+    x = torch.randn((1,2,4))
+    h = torch.randn((1,2,3))
 
-        layer.weight_hh_l0[0,0] = +1.0
-        layer.weight_hh_l0[0,1] = -2.0
-        layer.weight_hh_l0[1,0] = +3.0
-        layer.weight_hh_l0[1,1] = -4.0
-        layer.weight_hh_l0[2,0] = +5.0
-        layer.weight_hh_l0[2,1] = -6.0
-        layer.weight_hh_l0[3,0] = +7.0
-        layer.weight_hh_l0[3,1] = -8.0
-        layer.weight_hh_l0[4,0] = +9.0
-        layer.weight_hh_l0[4,1] = +0.0
-        layer.weight_hh_l0[5,0] = +1.0
-        layer.weight_hh_l0[5,1] = -2.0
-
-        layer.bias_ih_l0[0] = +1.0
-        layer.bias_ih_l0[1] = +2.0
-        layer.bias_ih_l0[2] = +3.0
-        layer.bias_ih_l0[3] = +4.0
-        layer.bias_ih_l0[4] = +5.0
-        layer.bias_ih_l0[5] = +6.0
-
-        layer.bias_hh_l0[0] = +3.0
-        layer.bias_hh_l0[1] = +6.0
-        layer.bias_hh_l0[2] = +9.0
-        layer.bias_hh_l0[3] = -2.0
-        layer.bias_hh_l0[4] = -5.0
-        layer.bias_hh_l0[5] = -8.0
-
-
-    x = torch.zeros((1,1,1), dtype=torch.float32)
-    h = torch.zeros((1,1,2), dtype=torch.float32)
+    layer = torch.nn.GRU(4, 3)
     
-    x[0, 0, 0] = -4.0
-    h[0, 0, 0] = 1.0
-    h[0, 0, 1] = 4.0
+    y = layer(x, h)[0]
 
-    print(x)
-    print(h)
-
-    y = layer(x, h)
-
-    print(y)
+    print(export(layer))
+    print(format('in_array[]', x.detach().numpy()))
+    print(format('hidden_array[]', h.detach().numpy()))
+    print(format('target_array[]', y.detach().numpy()))
 
     return 0
 
