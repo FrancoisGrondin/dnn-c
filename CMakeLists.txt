@@ -21,6 +21,7 @@ add_subdirectory(include)
 
 set(SRC
 
+    src/layers/conv.c
     src/layers/gru.c
     src/layers/linear.c
 
