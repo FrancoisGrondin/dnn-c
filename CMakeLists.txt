@@ -21,9 +21,9 @@ add_subdirectory(include)
 
 set(SRC
 
-    src/layers/conv.c
     src/layers/gru.c
     src/layers/linear.c
+    src/layers/lstm.c
 
     src/utils/functional.c
     src/utils/tensor.c

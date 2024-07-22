@@ -27,6 +27,6 @@ ugru * ugru_construct(const ugru_params * params);
 
 void ugru_destroy(ugru * obj);
 
-int ugru_forward(const ugru * obj, const tensor * in, const tensor * hidden, tensor * out);
+int ugru_forward(const ugru * obj, const tensor * in, const tensor * hidden_in, tensor * hidden_out);
 
 #endif // __LAYERS_GRU

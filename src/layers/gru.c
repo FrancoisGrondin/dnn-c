@@ -24,7 +24,7 @@ void ugru_destroy(ugru * obj) {
 
 }
 
-int ugru_forward(const ugru * obj, const tensor * in, const tensor * hidden, tensor * out) {
+int ugru_forward(const ugru * obj, const tensor * in, const tensor * hidden_in, tensor * hidden_out) {
 
     const unsigned int num_dims_batch = in->num_dims1 * in->num_dims2 * in->num_dims3;
     const unsigned int num_dims_in = obj->params->num_dims_in;
@@ -61,7 +61,7 @@ int ugru_forward(const ugru * obj, const tensor * in, const tensor * hidden, ten
     for (unsigned int index_dim_batch = 0; index_dim_batch < num_dims_batch; index_dim_batch++) {
 
         float * xv = &(in->data[index_dim_batch * num_dims_in]);
-        float * hv = &(hidden->data[index_dim_batch * num_dims_out]);
+        float * hv = &(hidden_in->data[index_dim_batch * num_dims_out]);
 
         for (unsigned int index_dim_out = 0; index_dim_out < num_dims_out; index_dim_out++) {
 
@@ -115,7 +115,7 @@ int ugru_forward(const ugru * obj, const tensor * in, const tensor * hidden, ten
 
         }
 
-        memcpy(&(out->data[index_dim_batch * num_dims_out]), obj->h, sizeof(float) * num_dims_out);
+        memcpy(&(hidden_out->data[index_dim_batch * num_dims_out]), obj->h, sizeof(float) * num_dims_out);
 
     }   
 
