@@ -16,21 +16,21 @@ int test_layers_gru(void) {
         const unsigned out_num_dims3 = 2;
         const unsigned out_num_dims4 = 3;
 
-        tensor * in = tensor_construct(in_num_dims1, in_num_dims2, in_num_dims3, in_num_dims4);
-        tensor * hidden = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
-        tensor * target = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
-        tensor * pred = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
+        tensor * x_in = tensor_construct(in_num_dims1, in_num_dims2, in_num_dims3, in_num_dims4);
+        tensor * hidden_in = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
+        tensor * hidden_target = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
+        tensor * hidden_pred = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
 
-        const float in_array[] = {+1.54099607f,-0.29342890f,-2.17878938f,+0.56843126f,
-                                  -1.08452237f,-1.39859545f,+0.40334684f,+0.83802634f};
-        const float hidden_array[] = {-0.71925759f,-0.40334353f,-0.59663534f,
-                                      +0.18203649f,-0.85667461f,+1.10060418f};
-        const float target_array[] = {-0.75540549f,+0.31993112f,+0.16078511f,
-                                      -0.02101753f,-0.81274438f,+0.93186295f};
+        const float x_in_array[] = {+1.54099607f,-0.29342890f,-2.17878938f,+0.56843126f,
+                                    -1.08452237f,-1.39859545f,+0.40334684f,+0.83802634f};
+        const float hidden_in_array[] = {-0.71925759f,-0.40334353f,-0.59663534f,
+                                         +0.18203649f,-0.85667461f,+1.10060418f};
+        const float hidden_target_array[] = {-0.75540549f,+0.31993112f,+0.16078511f,
+                                             -0.02101753f,-0.81274438f,+0.93186295f};
 
-        tensor_load(in, in_array);
-        tensor_load(hidden, hidden_array);
-        tensor_load(target, target_array);
+        tensor_load(x_in, x_in_array);
+        tensor_load(hidden_in, hidden_in_array);
+        tensor_load(hidden_target, hidden_target_array);
 
         const ugru_params params = { .num_dims_in = 4,
                                      .num_dims_out = 3,
@@ -59,16 +59,16 @@ int test_layers_gru(void) {
 
         ugru * layer = ugru_construct(&params);
 
-        ugru_forward(layer, in, hidden, pred);
+        ugru_forward(layer, x_in, hidden_in, hidden_pred);
 
-        if (tensors_compare(pred, target, eps) != 0) {
+        if (tensors_compare(hidden_pred, hidden_target, eps) != 0) {
             return -1;
         }
 
-        tensor_destroy(in);
-        tensor_destroy(hidden);
-        tensor_destroy(target);
-        tensor_destroy(pred);
+        tensor_destroy(x_in);
+        tensor_destroy(hidden_in);
+        tensor_destroy(hidden_target);
+        tensor_destroy(hidden_pred);
 
     }
 
@@ -84,21 +84,21 @@ int test_layers_gru(void) {
         const unsigned out_num_dims3 = 2;
         const unsigned out_num_dims4 = 3;
 
-        tensor * in = tensor_construct(in_num_dims1, in_num_dims2, in_num_dims3, in_num_dims4);
-        tensor * hidden = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
-        tensor * target = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
-        tensor * pred = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
+        tensor * x_in = tensor_construct(in_num_dims1, in_num_dims2, in_num_dims3, in_num_dims4);
+        tensor * hidden_in = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
+        tensor * hidden_target = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
+        tensor * hidden_pred = tensor_construct(out_num_dims1, out_num_dims2, out_num_dims3, out_num_dims4);
 
-        const float in_array[] = {+0.66135216f,+0.26692411f,+0.06167726f,+0.62131733f,
-                                  -0.45190597f,-0.16613023f,-1.52276850f,+0.38168392f};
-        const float hidden_array[] = {-1.02760863f,-0.56305277f,-0.89229053f,
-                                      -0.05825018f,-0.19550958f,-0.96563596f};
-        const float target_array[] = {-0.16974396f,-0.23915966f,-0.32620773f,
-                                      -0.40911978f,-0.38766432f,-0.79748154f};
+        const float x_in_array[] = {+0.66135216f,+0.26692411f,+0.06167726f,+0.62131733f,
+                                    -0.45190597f,-0.16613023f,-1.52276850f,+0.38168392f};
+        const float hidden_in_array[] = {-1.02760863f,-0.56305277f,-0.89229053f,
+                                         -0.05825018f,-0.19550958f,-0.96563596f};
+        const float hidden_target_array[] = {-0.16974396f,-0.23915966f,-0.32620773f,
+                                             -0.40911978f,-0.38766432f,-0.79748154f};
 
-        tensor_load(in, in_array);
-        tensor_load(hidden, hidden_array);
-        tensor_load(target, target_array);
+        tensor_load(x_in, x_in_array);
+        tensor_load(hidden_in, hidden_in_array);
+        tensor_load(hidden_target, hidden_target_array);
 
         const ugru_params params = { .num_dims_in = 4,
                                      .num_dims_out = 3,
@@ -127,16 +127,18 @@ int test_layers_gru(void) {
 
         ugru * layer = ugru_construct(&params);
 
-        ugru_forward(layer, in, hidden, pred);
+        ugru_forward(layer, x_in, hidden_in, hidden_pred);
 
-        if (tensors_compare(pred, target, eps) != 0) {
+        if (tensors_compare(hidden_pred, hidden_target, eps) != 0) {
             return -2;
         }
 
-        tensor_destroy(in);
-        tensor_destroy(hidden);
-        tensor_destroy(target);
-        tensor_destroy(pred);
+        ugru_destroy(layer);
+
+        tensor_destroy(x_in);
+        tensor_destroy(hidden_in);
+        tensor_destroy(hidden_target);
+        tensor_destroy(hidden_pred);
 
     }
 
